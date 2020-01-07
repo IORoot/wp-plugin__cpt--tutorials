@@ -1,14 +1,12 @@
 <?php
 
-
-
 // Register Custom Taxonomy
-function tutoral_category() {
+function tutorialcategory() {
 
 	$labels = array(
-		'name'                       => _x( 'Tutoral_Categories', 'Taxonomy General Name', 'text_domain' ),
-		'singular_name'              => _x( 'Tutoral_Category', 'Taxonomy Singular Name', 'text_domain' ),
-		'menu_name'                  => __( 'Tutoral Category', 'text_domain' ),
+		'name'                       => _x( 'Tutorial Category', 'Taxonomy General Name', 'text_domain' ),
+		'singular_name'              => _x( 'Tutorial Category', 'Taxonomy Singular Name', 'text_domain' ),
+		'menu_name'                  => __( 'Tutorial Category', 'text_domain' ),
 		'all_items'                  => __( 'All Items', 'text_domain' ),
 		'parent_item'                => __( 'Parent Item', 'text_domain' ),
 		'parent_item_colon'          => __( 'Parent Item:', 'text_domain' ),
@@ -36,10 +34,9 @@ function tutoral_category() {
 		'show_in_nav_menus'          => true,
 		'show_tagcloud'              => true,
 	);
-	register_taxonomy( 'tutoral_category', array( 'tutorials' ), $args );
-
+	register_taxonomy( 'tutorialcategory', array( 'tutorial' ), $args );
 }
-add_action( 'init', 'tutoral_category', 0 );
+add_action( 'init', 'tutorialcategory', 0 );
 
 // Register Custom Post Type
 function CPT_tutorials() {
@@ -78,7 +75,7 @@ function CPT_tutorials() {
 		'description'           => 'Parkour Tutorials, downloads and posts.',
 		'labels'                => $labels,
 		'supports'              => array( 'title', 'editor', 'thumbnail', 'revisions', 'custom-fields', 'page-attributes', 'post-formats' ),
-		'taxonomies'            => array( 'tutoral_category' ),
+		'taxonomies'            => array( 'tutorialcategory' ),
 		'hierarchical'          => true,
 		'public'                => true,
 		'show_ui'               => true,
