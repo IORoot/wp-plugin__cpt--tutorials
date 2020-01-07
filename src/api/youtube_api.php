@@ -143,6 +143,8 @@ class youtube {
 
     /**
      * loop_posts
+     * 
+     * This is the main loop that will iterate over all videos and create posts from them.
      *
      * @return void
      */
@@ -177,7 +179,8 @@ class youtube {
                         'post_content'      =>   $this->filter_description($snippet->description),
                         'post_status'       =>   'publish',
                         'post_type'         =>   'tutorial',
-                        'post_date'         =>   $snippet->publishedAt
+                        'post_date'         =>   $snippet->publishedAt,
+                        'page_template'     =>   'page_tutorial.php'
                     )
                 );
 
@@ -215,6 +218,8 @@ class youtube {
 
         }
 
+        return;
+
     }
 
 
@@ -229,7 +234,6 @@ class youtube {
         $slug = str_replace('Tutorial - ','', $title);
         $slug = strtolower(str_replace(' ','-', $slug));
         $slug = str_replace('---','-', $slug);
-
         return $slug;
     }
 
@@ -413,6 +417,7 @@ class youtube {
      * @return void
      */
     public function filter_title($title){
+
         // remove anything (including) before the " - "
         $title = substr(strstr($title, ' - '), strlen(' - '));
 
