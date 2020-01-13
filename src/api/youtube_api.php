@@ -51,7 +51,8 @@ class youtube {
 
         $this->options = array ( 
             'youtube_api_key'   => get_field('youtube_api_key', 'option'),
-            'youtube_playlist_id' => get_field('youtube_playlist_id', 'option')
+            'youtube_playlist_id' => get_field('youtube_playlist_id', 'option'),
+            'youtube_filter' => get_field('youtube_filter', 'option')
         );
 
         return $this;
@@ -118,13 +119,17 @@ class youtube {
         $description = $this->playlist->items[0]->snippet->description;
         $slug = strtolower(str_replace(' ','-', $name));
         $this->playlistslug = $slug;
-        $thumbnail = $this->playlist->items[0]->snippet->thumbnails->standard->url;
 
+        if ($this->options['youtube_filter'] == true){ 
+            $hex_colour = $this->parse_colour($description);
+        } else {
+            $hex_colour = '#70579F'; // lavender
+        }
+        
         // Check all parts exist.
         if ($name == null){         return false; }
         if ($description == null){  return false; }
         if ($slug == null){         return false; }
-        if ($thumbnail == null){    return false; }
 
         // Create Category
         $result = wp_insert_term( 
@@ -135,6 +140,14 @@ class youtube {
                 'slug'        => $slug
             )
         );
+
+        if (array_key_exists('term_taxonomy_id', $result) && $hex_colour){
+            update_field('taxonomy_colour', $hex_colour, 'tutorialcategory_'.$result['term_taxonomy_id']);
+        }
+
+        if (array_key_exists('term_taxonomy_id', $result) && $this->options['youtube_playlist_id']){
+            update_field('youtube_playlist_id', $this->options['youtube_playlist_id'], 'tutorialcategory_'.$result['term_taxonomy_id']);
+        }
 
         return $this;
     }
@@ -164,7 +177,18 @@ class youtube {
             $exists = $this->post_exists_by_slug($slug);
 
             // Get Title
-            $title = $this->filter_title($snippet->title);
+            if ($this->options['youtube_filter'] == true){ 
+                $title = $this->filter_title($snippet->title);
+            } else {
+                $title = $snippet->title;
+            }
+
+            // Get Description
+            if ($this->options['youtube_filter'] == true){ 
+                $description = $this->filter_description($snippet->description);
+            } else {
+                $description = $snippet->description;
+            }
 
             // Checks if doen't exists a post with slug 
             if( !$exists ) {
@@ -176,7 +200,7 @@ class youtube {
                         'post_author'       =>   1,
                         'post_name'         =>   $slug,
                         'post_title'        =>   $title,
-                        'post_content'      =>   $this->filter_description($snippet->description),
+                        'post_content'      =>   $description,
                         'post_status'       =>   'publish',
                         'post_type'         =>   'tutorial',
                         'post_date'         =>   $snippet->publishedAt,
@@ -237,6 +261,24 @@ class youtube {
         return $slug;
     }
 
+
+
+    /**
+     * parse_colour
+     *
+     * @param mixed $text
+     * @return void
+     */
+    public function parse_colour($text){
+
+        preg_match("/#COL-([a-fA-F0-9]{3,6})/", $text, $colour);
+
+        if (isset($colour) && $colour[1] != '' ){
+            return '#'.$colour[1];
+        }
+
+        return false;
+    }
 
 
     /**
@@ -401,6 +443,9 @@ class youtube {
 
         // --- to <hr/>
         $description = str_replace('___', '<hr/>', $description);
+
+        // Line breaks
+        $description = preg_replace("/\\n/xm", "<br/>", $description);
 
         // Newlines to paragraphs.
         $description = wpautop($description);

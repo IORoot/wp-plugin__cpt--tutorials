@@ -33,6 +33,7 @@ function tutorialcategory() {
 		'show_admin_column'          => true,
 		'show_in_nav_menus'          => true,
 		'show_tagcloud'              => true,
+		'rewrite'                    => array('slug' => 'tutorial', 'with_front' => false)
 	);
 	register_taxonomy( 'tutorialcategory', array( 'tutorial' ), $args );
 }
@@ -85,12 +86,42 @@ function CPT_tutorials() {
 		'show_in_admin_bar'     => true,
 		'show_in_nav_menus'     => true,
 		'can_export'            => true,
-		'has_archive'           => true,
+		'has_archive' 			=> 'tutorial',
 		'exclude_from_search'   => false,
 		'publicly_queryable'    => true,
 		'capability_type'       => 'page',
+		'rewrite'               => array('slug' => 'tutorial/%tutorialcategory%', 'with_front' => false),
 	);
 	register_post_type( 'tutorial', $args );
 
 }
 add_action( 'init', 'CPT_tutorials', 0 );
+
+
+// Run filter to replace the 'rewrite' %tutorial% with the tutorial category.
+// see: https://wordpress.stackexchange.com/questions/108642/permalinks-custom-post-type-custom-taxonomy-post
+function tutorial_post_link( $post_link, $id = 0 ){
+    $post = get_post($id);  
+    if ( is_object( $post ) ){
+        $terms = wp_get_object_terms( $post->ID, 'tutorialcategory' );
+        if( $terms ){
+            return str_replace( '%tutorialcategory%' , $terms[0]->slug , $post_link );
+        }
+    }
+    return $post_link;  
+}
+add_filter( 'post_type_link', 'tutorial_post_link', 1, 3 );
+
+
+// Using Wordpress Pre-Get filter to order the custom taxonomy by playlistOrder
+// This is so the order isn't by published date.
+function customize_tutorialcategory_archive_display ( $query ) {
+	if (($query->is_main_query()) && (is_tax('tutorialcategory'))){
+		$query->set( 'post_type', 'tutorial' );                 
+		$query->set( 'posts_per_page', '-1' );
+		$query->set( 'meta_key', 'playlistOrder' );           
+		$query->set( 'orderby', 'meta_value_num' );
+		$query->set( 'order', 'ASC' );
+	}	
+}
+add_action( 'pre_get_posts', 'customize_tutorialcategory_archive_display' );
