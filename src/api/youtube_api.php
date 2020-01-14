@@ -239,6 +239,8 @@ class youtube {
 
                 // YOAST Focus Keywords use the Category name.
                 update_post_meta( $post_id, '_yoast_wpseo_focuskw', $this->playlistname );
+                // YOAST Meta Description.
+                update_post_meta( $post_id, '_yoast_wpseo_metadesc', substr($description,0,150) );
 
             } else {
                 // Set post_id to -2 because there is a post with this slug.
