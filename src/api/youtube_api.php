@@ -22,6 +22,7 @@ class youtube {
      * @var undefined
      */
     private $playlist;
+    private $playlistname;
     private $playlistslug;
 
     /**
@@ -116,6 +117,7 @@ class youtube {
 
         $name = $this->playlist->items[0]->snippet->title;
         $name = str_replace('Tutorial - ','', $name);
+        $this->playlistname = $name;
         $description = $this->playlist->items[0]->snippet->description;
         $slug = strtolower(str_replace(' ','-', $name));
         $this->playlistslug = $slug;
@@ -234,6 +236,9 @@ class youtube {
                 $postdata['post_title'] = $title;
                 $alttext = $this->playlist->items[0]->snippet->title.' - '.$title.'. Parkour Article Video Thumbnail for LondonParkour.com';
                 $this->attach_external_image($imageURL, $post_id, true, $filename, $postdata, $alttext);
+
+                // YOAST Focus Keywords use the Category name.
+                update_post_meta( $post_id, '_yoast_wpseo_focuskw', $this->playlistname );
 
             } else {
                 // Set post_id to -2 because there is a post with this slug.
