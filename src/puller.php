@@ -6,7 +6,7 @@
 function save_options() {
 
     $screen = get_current_screen();
-	if (strpos($screen->id, "tutorialpuller") == false) { return; }
+	if (strpos($screen->id, "articlepuller") == false) { return; }
         
     if (get_field('youtube_trigger', 'option') == true){ 
         // Create new object.

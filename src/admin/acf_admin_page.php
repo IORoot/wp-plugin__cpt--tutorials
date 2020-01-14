@@ -12,10 +12,10 @@ if( function_exists('acf_add_options_page') ) {
 
         'page_title' => 'Scraper Settings',
         'menu_title' => 'Scraper Settings',
-        'menu_slug' => 'tutorialpuller',
+        'menu_slug' => 'articlepuller',
         'capability' => 'manage_options',
         'position' => '100.1',
-        'parent_slug' => 'edit.php?post_type=tutorial',
+        'parent_slug' => 'edit.php?post_type=article',
         'icon_url' => 'dashicons-screenoptions',
         'redirect' => true,
         'post_id' => 'options',
@@ -36,7 +36,7 @@ if( function_exists('acf_add_local_field_group') ):
 
     acf_add_local_field_group(array(
         'key' => 'group_5e12f441dc601',
-        'title' => 'Tutorial Puller',
+        'title' => 'Article Puller',
         'fields' => array(
             array(
                 'key' => 'field_5e12f4dd9aa8b',
@@ -81,7 +81,7 @@ if( function_exists('acf_add_local_field_group') ):
                 'label' => 'Youtube Playlist ID',
                 'name' => 'youtube_playlist_id',
                 'type' => 'text',
-                'instructions' => 'This is the ID of the playlist you wish to get. The playlist name will become a post category for the tutorials.',
+                'instructions' => 'This is the ID of the playlist you wish to get. The playlist name will become a post category for the articles.',
                 'required' => 0,
                 'conditional_logic' => 0,
                 'wrapper' => array(
@@ -122,7 +122,7 @@ if( function_exists('acf_add_local_field_group') ):
                 array(
                     'param' => 'options_page',
                     'operator' => '==',
-                    'value' => 'tutorialpuller',
+                    'value' => 'articlepuller',
                 ),
             ),
         ),
@@ -144,7 +144,7 @@ if( function_exists('acf_add_local_field_group') ):
 
         acf_add_local_field_group(array(
             'key' => 'group_5e1ae78b3997e',
-            'title' => 'Tutorial Taxonomy Additional Fields',
+            'title' => 'article Taxonomy Additional Fields',
             'fields' => array(
                 array(
                     'key' => 'field_5e1ae7e65c8de',
@@ -184,7 +184,7 @@ if( function_exists('acf_add_local_field_group') ):
                     array(
                         'param' => 'taxonomy',
                         'operator' => '==',
-                        'value' => 'tutorialcategory',
+                        'value' => 'articlecategory',
                     ),
                 ),
             ),

@@ -6,9 +6,9 @@
  * @copyright 2020 LondonParkour
  * 
  * @wordpress-plugin
- * Plugin Name:       _ANDYP - CPT - Tutorials
+ * Plugin Name:       _ANDYP - CPT - Articles
  * Plugin URI:        http://londonparkour.com
- * Description:       Creates a new CPT for Tutorials
+ * Description:       Creates a new CPT for Articles
  * Version:           1.0.0
  * Author:            Andy Pearson
  * Author URI:        https://londonparkour.com

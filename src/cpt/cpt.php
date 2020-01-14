@@ -1,12 +1,12 @@
 <?php
 
 // Register Custom Taxonomy
-function tutorialcategory() {
+function articlecategory() {
 
 	$labels = array(
-		'name'                       => _x( 'Tutorial Category', 'Taxonomy General Name', 'text_domain' ),
-		'singular_name'              => _x( 'Tutorial Category', 'Taxonomy Singular Name', 'text_domain' ),
-		'menu_name'                  => __( 'Tutorial Category', 'text_domain' ),
+		'name'                       => _x( 'Article Category', 'Taxonomy General Name', 'text_domain' ),
+		'singular_name'              => _x( 'Article Category', 'Taxonomy Singular Name', 'text_domain' ),
+		'menu_name'                  => __( 'Article Category', 'text_domain' ),
 		'all_items'                  => __( 'All Items', 'text_domain' ),
 		'parent_item'                => __( 'Parent Item', 'text_domain' ),
 		'parent_item_colon'          => __( 'Parent Item:', 'text_domain' ),
@@ -33,50 +33,50 @@ function tutorialcategory() {
 		'show_admin_column'          => true,
 		'show_in_nav_menus'          => true,
 		'show_tagcloud'              => true,
-		'rewrite'                    => array('slug' => 'tutorial', 'with_front' => false)
+		'rewrite'                    => array('slug' => 'article', 'with_front' => false)
 	);
-	register_taxonomy( 'tutorialcategory', array( 'tutorial' ), $args );
+	register_taxonomy( 'articlecategory', array( 'article' ), $args );
 }
-add_action( 'init', 'tutorialcategory', 0 );
+add_action( 'init', 'articlecategory', 0 );
 
 // Register Custom Post Type
-function CPT_tutorials() {
+function CPT_articles() {
 
 	$labels = array(
-		'name'                  => 'Tutorials',
-		'singular_name'         => 'Tutorial',
-		'menu_name'             => 'Tutorials',
-		'name_admin_bar'        => 'Tutorials',
-		'archives'              => 'Tutorial Archives',
-		'attributes'            => 'Tutorial Attributes',
-		'parent_item_colon'     => 'Tutorials :',
-		'all_items'             => 'All Tutorials',
-		'add_new_item'          => 'Add New Tutorial',
+		'name'                  => 'Articles',
+		'singular_name'         => 'Article',
+		'menu_name'             => 'Articles',
+		'name_admin_bar'        => 'Articles',
+		'archives'              => 'Article Archives',
+		'attributes'            => 'Article Attributes',
+		'parent_item_colon'     => 'Articles :',
+		'all_items'             => 'All Articles',
+		'add_new_item'          => 'Add New article',
 		'add_new'               => 'Add New',
-		'new_item'              => 'New Tutorial',
-		'edit_item'             => 'Edit Tutorial',
-		'update_item'           => 'Update Tutorial',
-		'view_item'             => 'View Tutorial',
-		'view_items'            => 'View Tutorials',
-		'search_items'          => 'Search Tutorial',
+		'new_item'              => 'New article',
+		'edit_item'             => 'Edit article',
+		'update_item'           => 'Update article',
+		'view_item'             => 'View article',
+		'view_items'            => 'View Articles',
+		'search_items'          => 'Search article',
 		'not_found'             => 'Not found',
 		'not_found_in_trash'    => 'Not found in Trash',
 		'featured_image'        => 'Featured Image',
 		'set_featured_image'    => 'Set featured image',
 		'remove_featured_image' => 'Remove featured image',
 		'use_featured_image'    => 'Use as featured image',
-		'insert_into_item'      => 'Insert into Tutorial',
-		'uploaded_to_this_item' => 'Uploaded to this Tutorial',
-		'items_list'            => 'Tutorials list',
-		'items_list_navigation' => 'Tutorials list navigation',
-		'filter_items_list'     => 'Filter Tutorials list',
+		'insert_into_item'      => 'Insert into article',
+		'uploaded_to_this_item' => 'Uploaded to this article',
+		'items_list'            => 'Articles list',
+		'items_list_navigation' => 'Articles list navigation',
+		'filter_items_list'     => 'Filter Articles list',
 	);
 	$args = array(
-		'label'                 => 'Tutorial',
-		'description'           => 'Parkour Tutorials, downloads and posts.',
+		'label'                 => 'Article',
+		'description'           => 'Parkour articles, downloads and posts.',
 		'labels'                => $labels,
 		'supports'              => array( 'title', 'editor', 'thumbnail', 'revisions', 'custom-fields', 'page-attributes', 'post-formats' ),
-		'taxonomies'            => array( 'tutorialcategory' ),
+		'taxonomies'            => array( 'articlecategory' ),
 		'hierarchical'          => true,
 		'public'                => true,
 		'show_ui'               => true,
@@ -86,42 +86,42 @@ function CPT_tutorials() {
 		'show_in_admin_bar'     => true,
 		'show_in_nav_menus'     => true,
 		'can_export'            => true,
-		'has_archive' 			=> 'tutorial',
+		'has_archive' 			=> 'article',
 		'exclude_from_search'   => false,
 		'publicly_queryable'    => true,
 		'capability_type'       => 'page',
-		'rewrite'               => array('slug' => 'tutorial/%tutorialcategory%', 'with_front' => false),
+		'rewrite'               => array('slug' => 'article/%articlecategory%', 'with_front' => false),
 	);
-	register_post_type( 'tutorial', $args );
+	register_post_type( 'article', $args );
 
 }
-add_action( 'init', 'CPT_tutorials', 0 );
+add_action( 'init', 'CPT_articles', 0 );
 
 
-// Run filter to replace the 'rewrite' %tutorial% with the tutorial category.
+// Run filter to replace the 'rewrite' %article% with the article category.
 // see: https://wordpress.stackexchange.com/questions/108642/permalinks-custom-post-type-custom-taxonomy-post
-function tutorial_post_link( $post_link, $id = 0 ){
+function article_post_link( $post_link, $id = 0 ){
     $post = get_post($id);  
     if ( is_object( $post ) ){
-        $terms = wp_get_object_terms( $post->ID, 'tutorialcategory' );
+        $terms = wp_get_object_terms( $post->ID, 'articlecategory' );
         if( $terms ){
-            return str_replace( '%tutorialcategory%' , $terms[0]->slug , $post_link );
+            return str_replace( '%articlecategory%' , $terms[0]->slug , $post_link );
         }
     }
     return $post_link;  
 }
-add_filter( 'post_type_link', 'tutorial_post_link', 1, 3 );
+add_filter( 'post_type_link', 'article_post_link', 1, 3 );
 
 
 // Using Wordpress Pre-Get filter to order the custom taxonomy by playlistOrder
 // This is so the order isn't by published date.
-function customize_tutorialcategory_archive_display ( $query ) {
-	if (($query->is_main_query()) && (is_tax('tutorialcategory'))){
-		$query->set( 'post_type', 'tutorial' );                 
+function customize_articlecategory_archive_display ( $query ) {
+	if (($query->is_main_query()) && (is_tax('articlecategory'))){
+		$query->set( 'post_type', 'article' );                 
 		$query->set( 'posts_per_page', '-1' );
 		$query->set( 'meta_key', 'playlistOrder' );           
 		$query->set( 'orderby', 'meta_value_num' );
 		$query->set( 'order', 'ASC' );
 	}	
 }
-add_action( 'pre_get_posts', 'customize_tutorialcategory_archive_display' );
+add_action( 'pre_get_posts', 'customize_articlecategory_archive_display' );

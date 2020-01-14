@@ -134,7 +134,7 @@ class youtube {
         // Create Category
         $result = wp_insert_term( 
             $name, 
-            'tutorialcategory', 
+            'articlecategory', 
             array(
                 'description' => $description,
                 'slug'        => $slug
@@ -142,11 +142,11 @@ class youtube {
         );
 
         if (array_key_exists('term_taxonomy_id', $result) && $hex_colour){
-            update_field('taxonomy_colour', $hex_colour, 'tutorialcategory_'.$result['term_taxonomy_id']);
+            update_field('taxonomy_colour', $hex_colour, 'articlecategory_'.$result['term_taxonomy_id']);
         }
 
         if (array_key_exists('term_taxonomy_id', $result) && $this->options['youtube_playlist_id']){
-            update_field('youtube_playlist_id', $this->options['youtube_playlist_id'], 'tutorialcategory_'.$result['term_taxonomy_id']);
+            update_field('youtube_playlist_id', $this->options['youtube_playlist_id'], 'articlecategory_'.$result['term_taxonomy_id']);
         }
 
         return $this;
@@ -202,14 +202,14 @@ class youtube {
                         'post_title'        =>   $title,
                         'post_content'      =>   $description,
                         'post_status'       =>   'publish',
-                        'post_type'         =>   'tutorial',
+                        'post_type'         =>   'article',
                         'post_date'         =>   $snippet->publishedAt,
-                        'page_template'     =>   'page_tutorial.php'
+                        'page_template'     =>   'page_article.php'
                     )
                 );
 
                 // Add taxonomy
-                wp_set_object_terms($post_id, $this->playlistslug, 'tutorialcategory');
+                wp_set_object_terms($post_id, $this->playlistslug, 'articlecategory');
 
                 // Add Custom Meta - VideoID
                 $this->update_post_meta( $post_id, 'videoId', $snippet->resourceId->videoId );
@@ -232,7 +232,7 @@ class youtube {
                 // Uses the VideoID as the filename.
                 $filename = $slug.'_'.$snippet->resourceId->videoId;
                 $postdata['post_title'] = $title;
-                $alttext = $this->playlist->items[0]->snippet->title.' - '.$title.'. Parkour Tutorial Video Thumbnail for LondonParkour.com';
+                $alttext = $this->playlist->items[0]->snippet->title.' - '.$title.'. Parkour Article Video Thumbnail for LondonParkour.com';
                 $this->attach_external_image($imageURL, $post_id, true, $filename, $postdata, $alttext);
 
             } else {
@@ -255,7 +255,7 @@ class youtube {
      * @return void
      */
     public function title_to_slug($title){
-        $slug = str_replace('Tutorial - ','', $title);
+        $slug = str_replace('article - ','', $title);
         $slug = strtolower(str_replace(' ','-', $slug));
         $slug = str_replace('---','-', $slug);
         return $slug;
@@ -290,7 +290,7 @@ class youtube {
     public function post_exists_by_slug( $post_slug ) {
 
         $args_posts = array(
-            'post_type'      => 'tutorial',
+            'post_type'      => 'article',
             'post_status'    => 'any',
             'name'           => $post_slug,
             'posts_per_page' => 1,
