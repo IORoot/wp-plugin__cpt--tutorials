@@ -473,6 +473,9 @@ class youtube {
         // remove anything (including) before the " - "
         $title = substr(strstr($title, ' - '), strlen(' - '));
 
+        // Capitalise
+        $title = ucfirst($title);
+
         return $title;
     }
 }
