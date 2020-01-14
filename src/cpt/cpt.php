@@ -125,3 +125,16 @@ function customize_articlecategory_archive_display ( $query ) {
 	}	
 }
 add_action( 'pre_get_posts', 'customize_articlecategory_archive_display' );
+
+
+/**
+ * Add Yoast SEO article schema for a custom post type.
+ *
+ */
+add_filter( 'wpseo_schema_article_post_types', 'andyp_add_wpseo_article_schema_to_cpt');
+function andyp_add_wpseo_article_schema_to_cpt( $post_types ) {
+
+	$post_types[] = 'article';
+
+	return $post_types;
+}
