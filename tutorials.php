@@ -36,6 +36,11 @@ require __DIR__.'/src/api/youtube_api.php';
 //  └─────────────────────────────────────────────────────────────────────────┘
 require __DIR__.'/src/puller.php';
 
+//  ┌─────────────────────────────────────────────────────────────────────────┐
+//  │                            The Shortcodes                               │
+//  └─────────────────────────────────────────────────────────────────────────┘
+require __DIR__.'/src/shortcodes/latest_articles.php';
+
 
 // ACF turns off the custom-fields metabox for speed. Switch it back on!
 add_filter('acf/settings/remove_wp_meta_box', '__return_false');
