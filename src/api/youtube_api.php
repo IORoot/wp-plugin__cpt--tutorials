@@ -454,6 +454,9 @@ class youtube {
         // Line breaks
         $description = preg_replace("/\\n/xm", "<br/>", $description);
 
+        // Remove Social Media Footer hashtags / classes / etc
+        $description = preg_replace("/\🌀ALL.*/s", "", $description);
+
         // Newlines to paragraphs.
         $description = wpautop($description);
 
