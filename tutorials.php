@@ -40,6 +40,7 @@ require __DIR__.'/src/puller.php';
 //  │                            The Shortcodes                               │
 //  └─────────────────────────────────────────────────────────────────────────┘
 require __DIR__.'/src/shortcodes/latest_articles.php';
+require __DIR__.'/src/shortcodes/dynamic_contents.php';
 
 
 // ACF turns off the custom-fields metabox for speed. Switch it back on!
