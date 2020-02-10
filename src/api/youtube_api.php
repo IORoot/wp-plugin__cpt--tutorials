@@ -244,7 +244,7 @@ class youtube {
 
                 // RankMath - https://support.rankmath.com/ticket/insert-the-meta-description-in-the-template-file/
                 update_post_meta( $post_id, 'rank_math_focus_keyword', $this->playlistname );
-                update_post_meta( $post_id, 'rank_math_description', substr($description,0,150) );
+                update_post_meta( $post_id, 'rank_math_description', substr(wp_strip_all_tags($description),0,150) );
                 update_post_meta( $post_id, 'rank_math_rich_snippet', 'article' );
 
             } else {
