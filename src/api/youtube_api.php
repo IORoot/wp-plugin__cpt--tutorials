@@ -242,6 +242,11 @@ class youtube {
                 // YOAST Meta Description.
                 update_post_meta( $post_id, '_yoast_wpseo_metadesc', substr($description,0,150) );
 
+                // RankMath - https://support.rankmath.com/ticket/insert-the-meta-description-in-the-template-file/
+                update_post_meta( $post_id, 'rank_math_focus_keyword', $this->playlistname );
+                update_post_meta( $post_id, 'rank_math_description', substr($description,0,150) );
+                update_post_meta( $post_id, 'rank_math_rich_snippet', 'article' );
+
             } else {
                 // Set post_id to -2 because there is a post with this slug.
                 $post_id = -2;       
