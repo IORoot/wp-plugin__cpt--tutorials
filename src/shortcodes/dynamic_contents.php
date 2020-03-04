@@ -56,8 +56,9 @@ function add_h2_anchors($h2_list, $content){
         // Replace the H2
         $post->post_content = str_replace($h2_item, '<div id="h2_anchor_'.$index.'"></div>'.$h2_item, $content);
 
-        wp_update_post($post);
     }
+
+    wp_update_post($post);
 
     return;
 };
