@@ -51,7 +51,7 @@ function add_h2_anchors($h2_list, $content){
     foreach($h2_list as $index=>$h2_item){
 
         // Check if any anchors have already been added.
-        if (preg_match('/h2_anchor_'.$index.'/',$content)){ break; }
+        if (preg_match('/h2_anchor_'.$index.'/',$content)){ continue; }
 
         // Replace the H2
         $post->post_content = str_replace($h2_item, '<div id="h2_anchor_'.$index.'"></div>'.$h2_item, $content);
