@@ -35,7 +35,7 @@ function dynamic_contents($atts, $content = null){
 
 function h2_to_contents($content){
 
-    $regex = '/<h2>(.*?)<\/h2>/';
+    $regex = '/<h2/';
     preg_match_all($regex, $content, $matches);
 
     // Create anchors next to each H2.
