@@ -12,7 +12,7 @@ function dynamic_contents($atts, $content = null){
     // parse content for all H2 tags & add anchors
     $list = h2_to_contents($post->post_content);
 
-    $output = '<div class="dynamic_contents">';
+    $output = '<div class="sticky"><div class="dynamic_contents">';
 
     if (!empty($list[0])){ $output .= '<div class="dynamic_contents__header">Contents</div>'; }
     
@@ -26,7 +26,7 @@ function dynamic_contents($atts, $content = null){
         }
         $output .= '</ul>';
         
-    $output .= '</div>';
+    $output .= '</div></div>';
 
     return $output;
 }
