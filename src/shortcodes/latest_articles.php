@@ -18,7 +18,7 @@ function latest_articles($atts, $content = null){
     // Get Posts
     $articles = get_posts([
         'post_type'         => 'article',
-        'post_status'       => 'publish',
+        'post_status'       => 'public',
         'numberposts'       => 3,
         'order'             => 'DESC'
     ]);
