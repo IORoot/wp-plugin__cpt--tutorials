@@ -21,7 +21,7 @@ function latest_articles($atts, $content = null){
         'post_status'       => 'publish',
         'numberposts'       => 3,
         'order'             => 'DESC',
-        'has_password'   => FALSE
+        'has_password'      => FALSE
     ]);
 
     //  ┌──────────────────────────────────────┐
