@@ -18,9 +18,10 @@ function latest_articles($atts, $content = null){
     // Get Posts
     $articles = get_posts([
         'post_type'         => 'article',
-        'post_status'       => 'public',
+        'post_status'       => 'publish',
         'numberposts'       => 3,
-        'order'             => 'DESC'
+        'order'             => 'DESC',
+        'has_password'   => FALSE
     ]);
 
     //  ┌──────────────────────────────────────┐
