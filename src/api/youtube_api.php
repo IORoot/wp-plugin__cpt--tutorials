@@ -30,7 +30,7 @@ class youtube {
      *
      * @var undefined
      */
-    private $playlistitems;
+    private $playlistitems = [];
 
     /**
      * __construct
@@ -88,17 +88,28 @@ class youtube {
      *
      * @return void
      */
-    public function request_playlistitems() {
+    public function request_playlistitems($nextPageToken = '') {
 
         // Check for values.
         if ($this->options['youtube_playlist_id'] == null){ return false; }
         if ($this->options['youtube_api_key'] == null){ return false; }
 
+        // Set Page Token if passed in.
+        if ($nextPageToken){ $pageToken = '&pageToken='.$nextPageToken;  } 
+        
         // Build URL
-        $url = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=".$this->options['youtube_playlist_id']."&maxResults=50&key=".$this->options['youtube_api_key'];
+        $url = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=".$this->options['youtube_playlist_id']."&maxResults=50&key=".$this->options['youtube_api_key'].$pageToken;
 
         // Fetch Results
-        $this->playlistitems = json_decode(wp_remote_fopen($url));
+        $results = json_decode(wp_remote_fopen($url));
+
+        // Push results onto playlistitems
+        $this->playlistitems = array_merge($this->playlistitems, $results->items);
+
+        // Loop this method to call the next batch.
+        if (isset($results->nextPageToken)){ 
+            $this->request_playlistitems($results->nextPageToken);
+        } 
 
         return $this;
     }
@@ -165,7 +176,7 @@ class youtube {
      */
     public function loop_posts() {
 
-        foreach ($this->playlistitems->items as $key => $item){
+        foreach ($this->playlistitems as $key => $item){
 
             $snippet = $item->snippet;
 
@@ -192,7 +203,7 @@ class youtube {
                 $description = $snippet->description;
             }
 
-            // Checks if doen't exists a post with slug 
+            // Checks if doesn't exists a post with slug 
             if( !$exists ) {
                 // Set the post ID
                 $post_id = wp_insert_post(
@@ -479,7 +490,9 @@ class youtube {
     public function filter_title($title){
 
         // remove anything (including) before the " - "
-        $title = substr(strstr($title, ' - '), strlen(' - '));
+        // $title = substr(strstr($title, ' - '), strlen(' - '));
+        
+        $title = str_replace(' - Parkour Reference', '', $title);
 
         // Capitalise
         $title = ucfirst($title);

@@ -33,9 +33,9 @@ function articlecategory() {
 		'show_admin_column'          => true,
 		'show_in_nav_menus'          => true,
 		'show_tagcloud'              => true,
-		'rewrite'                    => array('slug' => 'article', 'with_front' => false)
+		'rewrite'                    => array('slug' => 'articles', 'with_front' => false)
 	);
-	register_taxonomy( 'articlecategory', array( 'article' ), $args );
+	register_taxonomy( 'articlecategory', array( 'articles' ), $args );
 }
 add_action( 'init', 'articlecategory', 0 );
 
@@ -90,7 +90,7 @@ function CPT_articles() {
 		'exclude_from_search'   => false,
 		'publicly_queryable'    => true,
 		'capability_type'       => 'page',
-		'rewrite'               => array('slug' => 'article/%articlecategory%', 'with_front' => false),
+		'rewrite'               => array('slug' => 'article', 'with_front' => false),
 	);
 	register_post_type( 'article', $args );
 
@@ -125,16 +125,3 @@ function customize_articlecategory_archive_display ( $query ) {
 	}	
 }
 add_action( 'pre_get_posts', 'customize_articlecategory_archive_display' );
-
-
-/**
- * Add Yoast SEO article schema for a custom post type.
- *
- */
-add_filter( 'wpseo_schema_article_post_types', 'andyp_add_wpseo_article_schema_to_cpt');
-function andyp_add_wpseo_article_schema_to_cpt( $post_types ) {
-
-	$post_types[] = 'article';
-
-	return $post_types;
-}
