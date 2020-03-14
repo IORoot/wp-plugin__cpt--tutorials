@@ -119,8 +119,6 @@ function customize_articlecategory_archive_display ( $query ) {
 	if (($query->is_main_query()) && (is_tax('articlecategory'))){
 		$query->set( 'post_type', 'article' );                 
 		$query->set( 'posts_per_page', '-1' );
-		$query->set( 'meta_key', 'playlistOrder' );           
-		$query->set( 'orderby', 'meta_value_num' );
 		$query->set( 'order', 'ASC' );
 	}	
 }
