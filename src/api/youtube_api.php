@@ -224,6 +224,9 @@ class youtube {
                 // Add taxonomy
                 wp_set_object_terms($post_id, $this->playlistslug, 'articlecategory');
 
+                // Regex Title & Add Tags
+                $this->update_tags($post_id, $title);
+
                 // Add Custom Meta - VideoID
                 $this->update_post_meta( $post_id, 'videoId', $snippet->resourceId->videoId );
 
@@ -283,6 +286,33 @@ class youtube {
         $slug = str_replace('---','-', $slug);
         return $slug;
     }
+
+
+
+    /**
+     * update_tags
+     *
+     * @param mixed $title
+     * @return void
+     */
+    public function update_tags($id, $title){
+
+        $slugs = [];
+
+        $terms = get_terms(array(
+            'taxonomy' => 'articletags',
+            'hide_empty' => false,
+        ));
+
+        foreach ($terms as $term){
+            if (preg_match('/('.$term->name.')/i', $title)){  $slugs[] = $term->slug; } 
+        }
+
+        wp_set_object_terms($id, $slugs, 'articletags');
+
+        return $this;
+    }
+
 
 
 
