@@ -8,6 +8,12 @@ class youtube {
     // use helpers;
     // use transients;
 
+    public $max_results = 50;
+    
+    // Keep getting all results in a loop 
+    // for that particular playlist
+    public $loop_pages = true;
+
     /**
      * $options
      *
@@ -73,7 +79,7 @@ class youtube {
         if ($this->options['youtube_api_key'] == null){ return false; }
 
         // Build URL
-        $url = "https://www.googleapis.com/youtube/v3/playlists?part=snippet&id=".$this->options['youtube_playlist_id']."&maxResults=1&key=".$this->options['youtube_api_key'];
+        $url = "https://www.googleapis.com/youtube/v3/playlists?part=snippet&id=".$this->options['youtube_playlist_id']."&maxResults=".$this->max_results."&key=".$this->options['youtube_api_key'];
 
         // Fetch Results
         $this->playlist = json_decode(wp_remote_fopen($url));
@@ -98,7 +104,7 @@ class youtube {
         if ($nextPageToken){ $pageToken = '&pageToken='.$nextPageToken;  } 
         
         // Build URL
-        $url = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=".$this->options['youtube_playlist_id']."&maxResults=50&key=".$this->options['youtube_api_key'].$pageToken;
+        $url = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=".$this->options['youtube_playlist_id']."&maxResults=".$this->max_results."&key=".$this->options['youtube_api_key'].$pageToken;
 
         // Fetch Results
         $results = json_decode(wp_remote_fopen($url));
@@ -107,7 +113,7 @@ class youtube {
         $this->playlistitems = array_merge($this->playlistitems, $results->items);
 
         // Loop this method to call the next batch.
-        if (isset($results->nextPageToken)){ 
+        if (isset($results->nextPageToken) && $this->loop_pages){ 
             $this->request_playlistitems($results->nextPageToken);
         } 
 
@@ -189,14 +195,14 @@ class youtube {
             // check if slug exists already
             $exists = $this->post_exists_by_slug($slug);
 
-            // Get Title
+            // Filter Title
             if ($this->options['youtube_filter'] == true){ 
                 $title = $this->filter_title($snippet->title);
             } else {
                 $title = $snippet->title;
             }
 
-            // Get Description
+            // Filter Description
             if ($this->options['youtube_filter'] == true){ 
                 $description = $this->filter_description($snippet->description);
             } else {
@@ -225,7 +231,7 @@ class youtube {
                 wp_set_object_terms($post_id, $this->playlistslug, 'articlecategory');
 
                 // Regex Title & Add Tags
-                $this->update_tags($post_id, $title);
+                $this->update_tags($post_id, $snippet->title);
 
                 // Add Custom Meta - VideoID
                 $this->update_post_meta( $post_id, 'videoId', $snippet->resourceId->videoId );
@@ -519,10 +525,14 @@ class youtube {
      */
     public function filter_title($title){
 
-        // remove anything (including) before the " - "
-        // $title = substr(strstr($title, ' - '), strlen(' - '));
-        
-        $title = str_replace(' - Parkour Reference', '', $title);
+        // Remove LondonParkour
+        $title = preg_replace('/\s-\sLondonParkour/m','',$title);
+
+        // Remove two numbers at the front 00 .
+        $title = preg_replace('/^\d\d\s/m','',$title);
+
+        // Remove all the categories and FX in the title.
+        $title = preg_replace('/.-.SlowMo|.-.Zoom|.-.\S*\sView/imx','',$title);
 
         // Capitalise
         $title = ucfirst($title);
