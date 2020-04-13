@@ -48,6 +48,7 @@ function h2_to_contents($content){
 
 function add_h2_anchors($h2_list, $content){
 
+    $post = '';
     foreach($h2_list as $index=>$h2_item){
 
         // Check if any anchors have already been added.
