@@ -47,7 +47,9 @@ function latest_articles($atts, $content = null){
                         $output .= '<div class="articlelatest-list__title">'.$article->post_title.'</div>';
 
                         // Category description
-                        $output .= '<div class="articlelatest-list__description">'.wp_trim_words($article->post_content,20).'</div>';
+                        $desc = preg_replace('/\[(.*?)\]/', '', $article->post_content); // remove shortcodes
+                        $desc = preg_replace('/\<(.*?)\>/', '', $desc); // remove tags
+                        $output .= '<div class="articlelatest-list__description">'.wp_trim_words($desc,20).'</div>';
 
                         // Post date
                         $output .= '<div class="articlelatest-list__date">'.human_time_diff( get_the_time( 'U', $article->ID ), current_time( 'timestamp' ) ).' ago.</div>';
