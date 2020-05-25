@@ -8,7 +8,7 @@
  * @wordpress-plugin
  * Plugin Name:       _ANDYP - CPT - Articles
  * Plugin URI:        http://londonparkour.com
- * Description:       Creates a new CPT for Articles
+ * Description:       <strong>📬CPT</strong> | <em>Articles & Scraper</em> | Creates a new CPT for Articles. Has a YouTube API Scraper for playlists.
  * Version:           1.0.0
  * Author:            Andy Pearson
  * Author URI:        https://londonparkour.com
