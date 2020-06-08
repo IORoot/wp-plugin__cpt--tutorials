@@ -55,7 +55,7 @@ function latest_articles($atts, $content = null){
                         $output .= '<div class="articlelatest-list__date">'.human_time_diff( get_the_time( 'U', $article->ID ), current_time( 'timestamp' ) ).' ago.</div>';
 
                         // Play Icon
-                        $output .= '<div class="articlelatest-list__arrow"><i class="material-icons icon icon--lavender"></i></div>'; 
+                        $output .= '<div class="articlelatest-list__arrow"><i class="mdi mdi-book-open mdi--lavender"></i></div>'; 
 
                     $output .= '</a>';
                 $output .= '</li>';
