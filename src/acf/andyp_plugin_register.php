@@ -2,9 +2,9 @@
 
 add_action( 'plugins_loaded', function() {
     do_action('register_andyp_plugin', [
-        'title'     => 'CPT - Tutorials',
+        'title'     => 'Articles - CPT',
         'icon'      => 'post-outline',
-        'color'     => '#f44336',
+        'color'     => '#4A148C',
         'path'      => __FILE__,
     ]);
 } );

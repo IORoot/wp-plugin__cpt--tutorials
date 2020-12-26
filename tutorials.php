@@ -1,12 +1,8 @@
 <?php
 
 /*
- * @package   ANDYP - Custom Post Type - Tutorials
- * @author    Andy Pearson <andy@londonparkour.com>
- * @copyright 2020 LondonParkour
- * 
  * @wordpress-plugin
- * Plugin Name:       _ANDYP - CPT - Articles
+ * Plugin Name:       _ANDYP - Articles - Custom Post Type
  * Plugin URI:        http://londonparkour.com
  * Description:       <strong>📬CPT</strong> | <em>Articles & Scraper</em> | Creates a new CPT for Articles. Has a YouTube API Scraper for playlists.
  * Version:           1.0.0
