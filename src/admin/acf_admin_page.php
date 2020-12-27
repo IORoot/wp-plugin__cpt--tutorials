@@ -14,7 +14,7 @@ if( function_exists('acf_add_options_page') ) {
         'menu_title' => 'Scraper Settings',
         'menu_slug' => 'articlepuller',
         'capability' => 'manage_options',
-        'position' => '100.1',
+        'position' => 101,
         'parent_slug' => 'edit.php?post_type=article',
         'icon_url' => 'dashicons-screenoptions',
         'redirect' => true,
